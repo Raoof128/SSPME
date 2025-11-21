@@ -1,7 +1,9 @@
-import pytest
 import os
+
+import pytest
+
 from sspm_engine.analytics.risk_engine import RiskEngine
-from sspm_engine.models import Finding, Severity, ResourceType
+from sspm_engine.models import Finding, ResourceType, Severity
 
 
 def test_risk_engine():

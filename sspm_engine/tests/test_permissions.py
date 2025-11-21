@@ -1,6 +1,7 @@
 import pytest
-from sspm_engine.scanners.permissions import PermissionsScanner
+
 from sspm_engine.models import Finding, ResourceType
+from sspm_engine.scanners.permissions import PermissionsScanner
 
 
 def test_permissions_scanner():
