@@ -1,6 +1,4 @@
-import pytest
-
-from sspm_engine.models import Finding, ResourceType, Severity
+from sspm_engine.models import ResourceType
 from sspm_engine.scanners.permissions import PermissionsScanner
 
 

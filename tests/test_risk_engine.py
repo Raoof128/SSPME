@@ -1,8 +1,6 @@
 import json
 import os
 
-import pytest
-
 from sspm_engine.analytics.risk_engine import RiskEngine
 from sspm_engine.models import Finding, ResourceType, Severity
 
@@ -13,7 +11,9 @@ def test_risk_engine():
         {
             "id": "SLACK_NO_MFA",
             "name": "Slack Admin without MFA",
-            "description": "Administrator account detected without Multi-Factor Authentication.",
+            "description": (
+                "Administrator account detected without " "Multi-Factor Authentication."
+            ),
             "severity": "HIGH",
             "category": "misconfig",
         }
