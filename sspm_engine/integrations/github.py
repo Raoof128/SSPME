@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from github import Github, GithubException
 
@@ -10,11 +10,16 @@ logger = logging.getLogger(__name__)
 
 
 class GitHubIntegration(BaseIntegration):
-    def __init__(self, token: str = None, org_name: str = None, mock_file: str = None):
+    def __init__(
+        self,
+        token: Optional[str] = None,
+        org_name: Optional[str] = None,
+        mock_file: Optional[str] = None,
+    ):
         super().__init__(mock_file)
         self.token = token
         self.org_name = org_name
-        self.client = None
+        self.client: Optional[Github] = None
 
     def connect(self) -> bool:
         if self.token:
@@ -25,7 +30,7 @@ class GitHubIntegration(BaseIntegration):
         return False
 
     def fetch_data(self) -> Dict[str, List[Any]]:
-        data = {"repos": [], "members": []}
+        data: Dict[str, List[Any]] = {"repos": [], "members": []}
 
         if self.mock_file:
             mock_data = self._load_mock_data()

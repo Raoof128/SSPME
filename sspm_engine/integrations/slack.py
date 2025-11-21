@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -11,10 +11,10 @@ logger = logging.getLogger(__name__)
 
 
 class SlackIntegration(BaseIntegration):
-    def __init__(self, token: str = None, mock_file: str = None):
+    def __init__(self, token: Optional[str] = None, mock_file: Optional[str] = None):
         super().__init__(mock_file)
         self.token = token
-        self.client = None
+        self.client: Optional[WebClient] = None
 
     def connect(self) -> bool:
         if self.token:
@@ -25,7 +25,7 @@ class SlackIntegration(BaseIntegration):
         return False
 
     def fetch_data(self) -> Dict[str, List[Any]]:
-        data = {"users": [], "channels": []}
+        data: Dict[str, List[Any]] = {"users": [], "channels": []}
 
         if self.mock_file:
             mock_data = self._load_mock_data()
@@ -45,20 +45,26 @@ class SlackIntegration(BaseIntegration):
 
         return data
 
-    def _get_users(self) -> List[Dict]:
+    def _get_users(self) -> List[Dict[Any, Any]]:
         try:
+            if self.client is None:
+                return []
             response = self.client.users_list()
-            return response["members"]
+            members: List[Any] = response.get("members", [])
+            return list(members) if members else []
         except SlackApiError as e:
             logger.error(f"Slack API User Error: {e}")
             return []
 
-    def _get_channels(self) -> List[Dict]:
+    def _get_channels(self) -> List[Dict[Any, Any]]:
         try:
+            if self.client is None:
+                return []
             response = self.client.conversations_list(
                 types="public_channel,private_channel"
             )
-            return response["channels"]
+            channels: List[Any] = response.get("channels", [])
+            return list(channels) if channels else []
         except SlackApiError as e:
             logger.error(f"Slack API Channel Error: {e}")
             return []

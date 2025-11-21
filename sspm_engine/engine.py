@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import yaml
 
@@ -24,7 +24,9 @@ class SSPMEngine:
     Orchestrates integrations, scanners, and reporting.
     """
 
-    def __init__(self, config_path: str = None, risk_rules_path: str = None):
+    def __init__(
+        self, config_path: Optional[str] = None, risk_rules_path: Optional[str] = None
+    ):
         base_path = os.path.dirname(os.path.abspath(__file__))
         # Check if running from installed package or source
         # If installed, examples might not be in package dir,
@@ -94,7 +96,8 @@ class SSPMEngine:
     def _load_config(self, path: str) -> Dict[str, Any]:
         if os.path.exists(path):
             with open(path, "r") as f:
-                return yaml.safe_load(f)
+                result = yaml.safe_load(f)
+                return result if isinstance(result, dict) else {}
         return {}
 
     def run_scan(self, provider: str = "all") -> ScanResult:

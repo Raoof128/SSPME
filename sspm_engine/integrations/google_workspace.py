@@ -1,6 +1,6 @@
 import json
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from .base import BaseIntegration
 
@@ -10,14 +10,14 @@ logger = logging.getLogger(__name__)
 class GoogleWorkspaceIntegration(BaseIntegration):
     def __init__(
         self,
-        credentials_file: str = None,
-        subject_email: str = None,
-        mock_file: str = None,
+        credentials_file: Optional[str] = None,
+        subject_email: Optional[str] = None,
+        mock_file: Optional[str] = None,
     ):
         super().__init__(mock_file)
         self.credentials_file = credentials_file
         self.subject_email = subject_email
-        self.service = None
+        self.service: Optional[Any] = None
 
     def connect(self) -> bool:
         # Placeholder for real auth
@@ -26,7 +26,7 @@ class GoogleWorkspaceIntegration(BaseIntegration):
         return False
 
     def fetch_data(self) -> Dict[str, List[Any]]:
-        data = {"users": [], "files": []}
+        data: Dict[str, List[Any]] = {"users": [], "files": []}
 
         if self.mock_file:
             mock_data = self._load_mock_data()

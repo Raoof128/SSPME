@@ -15,7 +15,7 @@ class SecretScanner(BaseScanner):
         }
 
     def scan(self, data: Dict[str, Any]) -> List[Finding]:
-        findings = []
+        findings: List[Finding] = []
 
         for repo in data.get("github_repos", []):
             self._scan_text(

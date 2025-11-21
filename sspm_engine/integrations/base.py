@@ -1,12 +1,12 @@
 import logging
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
 
 class BaseIntegration(ABC):
-    def __init__(self, mock_file: str = None):
+    def __init__(self, mock_file: Optional[str] = None):
         self.mock_file = mock_file
 
     @abstractmethod

@@ -1,10 +1,10 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from ..models import Finding, Severity
 
 
 class ScoringEngine:
-    def __init__(self, config: Dict[str, Any] = None):
+    def __init__(self, config: Optional[Dict[str, Any]] = None):
         self.config = config or {}
         self.severity_weights = {
             Severity.CRITICAL: 10.0,
