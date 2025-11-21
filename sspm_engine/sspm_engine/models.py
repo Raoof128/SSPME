@@ -2,6 +2,7 @@ from typing import Dict, Any, List, Optional
 from pydantic import BaseModel, Field
 from enum import Enum
 
+
 class Severity(str, Enum):
     CRITICAL = "CRITICAL"
     HIGH = "HIGH"
@@ -9,12 +10,14 @@ class Severity(str, Enum):
     LOW = "LOW"
     UNKNOWN = "UNKNOWN"
 
+
 class ResourceType(str, Enum):
     USER = "user"
     REPO = "repo"
     FILE = "file"
     CHANNEL = "channel"
     UNKNOWN = "unknown"
+
 
 class Finding(BaseModel):
     rule_id: str
@@ -26,11 +29,13 @@ class Finding(BaseModel):
     data: Optional[Dict[str, Any]] = None
     remediation: Optional[str] = None
 
+
 class ScanResult(BaseModel):
     score: float
     findings: List[Finding]
     counts: Dict[str, int]
     metadata: Dict[str, Any] = Field(default_factory=dict)
+
 
 class User(BaseModel):
     id: str
@@ -40,6 +45,7 @@ class User(BaseModel):
     has_mfa: bool = False
     source: str
 
+
 class Repository(BaseModel):
     name: str
     is_private: bool
@@ -48,10 +54,10 @@ class Repository(BaseModel):
     url: Optional[str] = None
     source: str = "github"
 
+
 class FileObject(BaseModel):
     id: str
     name: str
     permissions: List[Dict[str, Any]] = []
     publicly_accessible: bool = False
     source: str = "google"
-

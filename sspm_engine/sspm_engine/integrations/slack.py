@@ -8,6 +8,7 @@ from ..models import User, ResourceType
 
 logger = logging.getLogger(__name__)
 
+
 class SlackIntegration(BaseIntegration):
     def __init__(self, token: str = None, mock_file: str = None):
         super().__init__(mock_file)
@@ -24,7 +25,7 @@ class SlackIntegration(BaseIntegration):
 
     def fetch_data(self) -> Dict[str, List[Any]]:
         data = {"users": [], "channels": []}
-        
+
         if self.mock_file:
             mock_data = self._load_mock_data()
             data["users"] = mock_data.get("users", [])
@@ -53,7 +54,9 @@ class SlackIntegration(BaseIntegration):
 
     def _get_channels(self) -> List[Dict]:
         try:
-            response = self.client.conversations_list(types="public_channel,private_channel")
+            response = self.client.conversations_list(
+                types="public_channel,private_channel"
+            )
             return response["channels"]
         except SlackApiError as e:
             logger.error(f"Slack API Channel Error: {e}")
@@ -61,7 +64,7 @@ class SlackIntegration(BaseIntegration):
 
     def _load_mock_data(self):
         try:
-            with open(self.mock_file, 'r') as f:
+            with open(self.mock_file, "r") as f:
                 return json.load(f)
         except Exception as e:
             logger.error(f"Failed to load mock data from {self.mock_file}: {e}")

@@ -6,6 +6,7 @@ from .base import BaseIntegration
 
 logger = logging.getLogger(__name__)
 
+
 class GitHubIntegration(BaseIntegration):
     def __init__(self, token: str = None, org_name: str = None, mock_file: str = None):
         super().__init__(mock_file)
@@ -23,7 +24,7 @@ class GitHubIntegration(BaseIntegration):
 
     def fetch_data(self) -> Dict[str, List[Any]]:
         data = {"repos": [], "members": []}
-        
+
         if self.mock_file:
             mock_data = self._load_mock_data()
             data["repos"] = mock_data.get("repos", [])
@@ -46,23 +47,23 @@ class GitHubIntegration(BaseIntegration):
     def _get_repos(self, org) -> List[Dict]:
         repos = []
         for repo in org.get_repos():
-            repos.append({
-                "name": repo.name,
-                "private": repo.private,
-                "branch_protection": self._check_branch_protection(repo),
-                "collaborators": [c.login for c in repo.get_collaborators()],
-                "html_url": repo.html_url
-            })
+            repos.append(
+                {
+                    "name": repo.name,
+                    "private": repo.private,
+                    "branch_protection": self._check_branch_protection(repo),
+                    "collaborators": [c.login for c in repo.get_collaborators()],
+                    "html_url": repo.html_url,
+                }
+            )
         return repos
 
     def _get_members(self, org) -> List[Dict]:
         members = []
         for member in org.get_members():
-            members.append({
-                "login": member.login,
-                "role": "member", 
-                "mfa_enabled": False 
-            })
+            members.append(
+                {"login": member.login, "role": "member", "mfa_enabled": False}
+            )
         return members
 
     def _check_branch_protection(self, repo):
@@ -74,7 +75,7 @@ class GitHubIntegration(BaseIntegration):
 
     def _load_mock_data(self):
         try:
-            with open(self.mock_file, 'r') as f:
+            with open(self.mock_file, "r") as f:
                 return json.load(f)
         except Exception as e:
             logger.error(f"Failed to load mock data from {self.mock_file}: {e}")
