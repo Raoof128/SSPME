@@ -59,4 +59,3 @@ setup(
     ],
     keywords="security sspm saas posture-management compliance",
 )
-
