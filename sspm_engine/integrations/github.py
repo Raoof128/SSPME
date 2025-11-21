@@ -1,7 +1,9 @@
 import json
 import logging
+from typing import Any, Dict, List
+
 from github import Github, GithubException
-from typing import Dict, List, Any
+
 from .base import BaseIntegration
 
 logger = logging.getLogger(__name__)
@@ -70,7 +72,7 @@ class GitHubIntegration(BaseIntegration):
         try:
             branch = repo.get_branch(repo.default_branch)
             return branch.protected
-        except:
+        except Exception:
             return False
 
     def _load_mock_data(self):

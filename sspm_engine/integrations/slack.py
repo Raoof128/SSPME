@@ -1,10 +1,11 @@
 import json
 import logging
+from typing import Any, Dict, List
+
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from typing import Dict, List, Any
+
 from .base import BaseIntegration
-from ..models import User, ResourceType
 
 logger = logging.getLogger(__name__)
 

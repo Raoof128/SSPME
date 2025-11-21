@@ -1,6 +1,7 @@
 import json
 import logging
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
 from .base import BaseIntegration
 
 logger = logging.getLogger(__name__)

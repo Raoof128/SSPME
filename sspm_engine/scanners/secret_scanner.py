@@ -1,7 +1,8 @@
 import re
-from typing import List, Dict, Any
-from .base import BaseScanner
+from typing import Any, Dict, List
+
 from ..models import Finding, ResourceType, Severity
+from .base import BaseScanner
 
 
 class SecretScanner(BaseScanner):

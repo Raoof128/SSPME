@@ -1,18 +1,19 @@
 import os
-import yaml
-from typing import Dict, Any
+from typing import Any, Dict
 
-from .integrations.slack import SlackIntegration
+import yaml
+
+from .analytics.risk_engine import RiskEngine
 from .integrations.github import GitHubIntegration
 from .integrations.google_workspace import GoogleWorkspaceIntegration
-from .scanners.permissions import PermissionsScanner
+from .integrations.slack import SlackIntegration
+from .logging_config import setup_logging
+from .models import ScanResult
+from .reporting.reporter import Reporter
 from .scanners.external_access import ExternalAccessScanner
 from .scanners.misconfig import MisconfigurationScanner
+from .scanners.permissions import PermissionsScanner
 from .scanners.secret_scanner import SecretScanner
-from .analytics.risk_engine import RiskEngine
-from .reporting.reporter import Reporter
-from .models import ScanResult
-from .logging_config import setup_logging
 
 logger = setup_logging()
 
@@ -26,8 +27,10 @@ class SSPMEngine:
     def __init__(self, config_path: str = None, risk_rules_path: str = None):
         base_path = os.path.dirname(os.path.abspath(__file__))
         # Check if running from installed package or source
-        # If installed, examples might not be in package dir, so we might need to look elsewhere or expect env vars.
-        # For this standalone repo structure, we assume project root is parent of sspm_engine package folder.
+        # If installed, examples might not be in package dir,
+        # so we might need to look elsewhere or expect env vars.
+        # For this standalone repo structure, we assume project root
+        # is parent of sspm_engine package folder.
         project_root = os.path.dirname(base_path)
 
         if not config_path:
@@ -49,7 +52,10 @@ class SSPMEngine:
         self.reporter = Reporter(template_dir)
 
         # Initialize Integrations
-        mock_dir = os.path.join(project_root, "examples")
+        # Check for examples in package directory first, then project root
+        mock_dir = os.path.join(base_path, "examples")
+        if not os.path.exists(mock_dir):
+            mock_dir = os.path.join(project_root, "examples")
 
         self.slack = SlackIntegration(
             token=os.getenv("SLACK_BOT_TOKEN"),

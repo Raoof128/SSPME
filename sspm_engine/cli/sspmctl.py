@@ -1,6 +1,7 @@
 import typer
 from rich.console import Console
 from rich.table import Table
+
 from sspm_engine.engine import SSPMEngine
 from sspm_engine.models import Severity
 

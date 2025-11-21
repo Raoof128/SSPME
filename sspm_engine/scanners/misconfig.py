@@ -1,6 +1,7 @@
-from typing import List, Dict, Any
-from .base import BaseScanner
+from typing import Any, Dict, List
+
 from ..models import Finding, ResourceType, Severity
+from .base import BaseScanner
 
 
 class MisconfigurationScanner(BaseScanner):
@@ -10,16 +11,17 @@ class MisconfigurationScanner(BaseScanner):
         # GitHub Checks
         repos = data.get("github_repos", [])
         for repo in repos:
-            if (
-                not repo.get("branch_protection")
-                and not repo.get("private", False) == False
-            ):
+            if not repo.get("branch_protection") and repo.get("private") is False:
+                repo_name = repo.get("name")
                 findings.append(
                     Finding(
                         rule_id="GH_NO_BRANCH_PROTECTION",
-                        resource_id=f"github_repo:{repo.get('name')}",
+                        resource_id=f"github_repo:{repo_name}",
                         resource_type=ResourceType.REPO,
-                        details=f"Repository {repo.get('name')} does not have branch protection enabled.",
+                        details=(
+                            f"Repository {repo_name} does not have "
+                            "branch protection enabled."
+                        ),
                         severity=Severity.MEDIUM,
                         category="misconfig",
                         data=repo,
@@ -30,12 +32,13 @@ class MisconfigurationScanner(BaseScanner):
         gw_users = data.get("google_users", [])
         for user in gw_users:
             if user.get("is_super_admin") and not user.get("is_enrolled_in_2sv"):
+                user_email = user.get("email")
                 findings.append(
                     Finding(
                         rule_id="GW_ADMIN_NO_2SV",
-                        resource_id=f"google_user:{user.get('email')}",
+                        resource_id=f"google_user:{user_email}",
                         resource_type=ResourceType.USER,
-                        details=f"Super Admin {user.get('email')} is not enrolled in 2SV.",
+                        details=(f"Super Admin {user_email} is not enrolled in 2SV."),
                         severity=Severity.HIGH,
                         category="misconfig",
                         data=user,

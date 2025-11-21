@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+
 from sspm_engine.engine import SSPMEngine
 from sspm_engine.models import ScanResult
 

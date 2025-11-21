@@ -1,7 +1,5 @@
 import os
 
-import pytest
-
 from sspm_engine.analytics.risk_engine import RiskEngine
 from sspm_engine.models import Finding, ResourceType, Severity
 

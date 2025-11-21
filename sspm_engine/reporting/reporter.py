@@ -1,8 +1,7 @@
-import json
-import os
-from typing import Dict, Any
-from jinja2 import Environment, FileSystemLoader
 from datetime import datetime
+
+from jinja2 import Environment, FileSystemLoader
+
 from ..models import ScanResult
 
 
@@ -21,8 +20,8 @@ class Reporter:
 
     def generate_json_report(self, result: ScanResult, output_path: str):
         # Pydantic models have a .dict() method (v1) or .model_dump() (v2)
-        # Assuming Pydantic v1 compatibility based on requirements often defaulting to older strictness
-        # But best to use json()
+        # Assuming Pydantic v1 compatibility based on requirements
+        # often defaulting to older strictness. Best to use json()
 
         with open(output_path, "w") as f:
             f.write(result.json(indent=2))
