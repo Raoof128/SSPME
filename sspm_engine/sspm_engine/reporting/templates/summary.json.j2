@@ -1,0 +1,8 @@
+{
+  "scan_id": "{{ scan_id }}",
+  "timestamp": "{{ timestamp }}",
+  "risk_score": {{ score }},
+  "findings_count": {{ findings|length }},
+  "severity_breakdown": {{ counts | tojson }}
+}
+

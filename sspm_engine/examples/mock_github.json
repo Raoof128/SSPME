@@ -1,0 +1,29 @@
+{
+  "repos": [
+    {
+      "name": "internal-backend",
+      "private": true,
+      "branch_protection": true,
+      "collaborators": ["alice", "bob"]
+    },
+    {
+      "name": "website-public",
+      "private": false,
+      "branch_protection": false,
+      "collaborators": ["alice"]
+    }
+  ],
+  "members": [
+    {
+      "login": "alice",
+      "role": "admin",
+      "mfa_enabled": true
+    },
+    {
+      "login": "eve_contractor",
+      "role": "member",
+      "mfa_enabled": false
+    }
+  ]
+}
+

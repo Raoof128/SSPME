@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "email": "admin@company.com",
+      "is_super_admin": true,
+      "is_enrolled_in_2sv": true
+    },
+    {
+      "email": "user@company.com",
+      "is_super_admin": false,
+      "is_enrolled_in_2sv": false
+    }
+  ],
+  "files": [
+    {
+      "name": "Q3 Financials",
+      "shared_with_me": false,
+      "permissions": [
+        {
+          "type": "anyone",
+          "role": "reader"
+        }
+      ]
+    },
+    {
+      "name": "Project Specs",
+      "shared_with_me": false,
+      "permissions": [
+        {
+          "type": "user",
+          "email": "partner@external.com",
+          "role": "writer"
+        }
+      ]
+    }
+  ]
+}
+

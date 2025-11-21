@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GOOGLE_SA_KEY_PATH=${GOOGLE_SA_KEY_PATH}
+    command: uvicorn sspm_engine.api.server:app --host 0.0.0.0 --port 8000 --reload
+
+  cli:
+    build: .
+    volumes:
+      - .:/app
+    environment:
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GOOGLE_SA_KEY_PATH=${GOOGLE_SA_KEY_PATH}
+    command: python sspm_engine/cli/sspmctl.py scan all
+

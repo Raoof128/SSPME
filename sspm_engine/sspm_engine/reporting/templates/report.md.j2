@@ -1,0 +1,33 @@
+# SaaS Security Posture Management Report
+
+**Date**: {{ now() }}
+**Risk Score**: {{ score }} / 100
+
+## Executive Summary
+
+A total of **{{ findings|length }}** risks were identified across your SaaS environment.
+
+| Severity | Count |
+|----------|-------|
+| CRITICAL | {{ counts.CRITICAL }} |
+| HIGH     | {{ counts.HIGH }} |
+| MEDIUM   | {{ counts.MEDIUM }} |
+| LOW      | {{ counts.LOW }} |
+
+## Findings
+
+{% for finding in findings %}
+### [{{ finding.severity }}] {{ finding.rule_name }} ({{ finding.rule_id }})
+
+- **Resource**: `{{ finding.resource_id }}`
+- **Category**: {{ finding.category }}
+- **Details**: {{ finding.details }}
+
+{% endfor %}
+
+## Remediation Actions
+
+{% for finding in findings %}
+* **{{ finding.resource_id }}**: Fix {{ finding.rule_name }}
+{% endfor %}
+

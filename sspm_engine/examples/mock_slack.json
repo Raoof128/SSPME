@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "id": "U12345",
+      "name": "alice",
+      "is_admin": true,
+      "has_2fa": true,
+      "is_stranger": false
+    },
+    {
+      "id": "U67890",
+      "name": "bob_guest",
+      "is_admin": false,
+      "has_2fa": false,
+      "is_stranger": true
+    }
+  ],
+  "channels": [
+    {
+      "id": "C12345",
+      "name": "general",
+      "is_private": false,
+      "is_shared": false
+    },
+    {
+      "id": "C67890",
+      "name": "partners-external",
+      "is_private": true,
+      "is_shared": true
+    }
+  ]
+}
+

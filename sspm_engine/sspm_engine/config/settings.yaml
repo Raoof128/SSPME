@@ -1,0 +1,31 @@
+integrations:
+  slack:
+    enabled: true
+    token: ${SLACK_BOT_TOKEN}
+  github:
+    enabled: true
+    token: ${GITHUB_TOKEN}
+    org: ${GITHUB_ORG}
+  google:
+    enabled: true
+    service_account_file: ${GOOGLE_SA_KEY_PATH}
+    admin_email: ${GOOGLE_ADMIN_EMAIL}
+
+scanning:
+  exclude_repos: []
+  exclude_users: []
+  secret_regex_patterns:
+    - name: "AWS Access Key"
+      pattern: "AKIA[0-9A-Z]{16}"
+    - name: "Generic API Key"
+      pattern: "api_key['\"]?\\s*[:=]\\s*['\"][a-zA-Z0-9]{32,}['\"]"
+    - name: "GitHub Token"
+      pattern: "ghp_[a-zA-Z0-9]{36}"
+
+risk_scoring:
+  default_severity: "MEDIUM"
+  weights:
+    severity: 0.4
+    exposure: 0.3
+    asset_value: 0.3
+

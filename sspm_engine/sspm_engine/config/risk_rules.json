@@ -1,0 +1,38 @@
+[
+  {
+    "id": "SLACK_EXT_GUEST",
+    "name": "External Guest in Slack",
+    "description": "An external guest has access to internal channels.",
+    "severity": "MEDIUM",
+    "category": "external_access"
+  },
+  {
+    "id": "SLACK_NO_MFA",
+    "name": "Slack Admin without MFA",
+    "description": "Administrator account detected without Multi-Factor Authentication.",
+    "severity": "HIGH",
+    "category": "misconfig"
+  },
+  {
+    "id": "GH_PUBLIC_REPO",
+    "name": "Public GitHub Repository",
+    "description": "A repository is visible to the public.",
+    "severity": "HIGH",
+    "category": "external_access"
+  },
+  {
+    "id": "GH_SECRET_LEAK",
+    "name": "Secret Leaked in Code",
+    "description": "A potential secret or API key was found in the codebase.",
+    "severity": "CRITICAL",
+    "category": "secret_scanner"
+  },
+  {
+    "id": "GW_PUBLIC_DOC",
+    "name": "Publicly Shared Google Doc",
+    "description": "A Google Drive document is shared with 'Anyone with the link' or 'Public'.",
+    "severity": "HIGH",
+    "category": "misconfig"
+  }
+]
+
