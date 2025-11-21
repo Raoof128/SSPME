@@ -18,10 +18,34 @@ logger = setup_logging()
 
 class SSPMEngine:
     """
-    Core engine for SaaS Security Posture Management.
-    Orchestrates integrations, scanners, and reporting.
+    Core engine for SaaS Security Posture Management (SSPM).
+
+    This class orchestrates the entire scanning process, including:
+    - Initializing integrations (Slack, GitHub, Google Workspace)
+    - Configuring scanners
+    - Running scans to collect data
+    - Analyzing findings with the Risk Engine
+    - Generating reports
+
+    Attributes:
+        config (Dict[str, Any]): The loaded configuration dictionary.
+        risk_engine (RiskEngine): The engine responsible for risk analysis and scoring.
+        reporter (Reporter): The reporter instance for generating outputs.
+        slack (SlackIntegration): Integration handler for Slack.
+        github (GitHubIntegration): Integration handler for GitHub.
+        google (GoogleWorkspaceIntegration): Integration handler for Google Workspace.
+        scanners (List[BaseScanner]): List of initialized security scanners.
     """
     def __init__(self, config_path: str = None, risk_rules_path: str = None):
+        """
+        Initialize the SSPM Engine.
+
+        Args:
+            config_path (str, optional): Path to the `settings.yaml` configuration file. 
+                Defaults to `config/settings.yaml` in the package or project root.
+            risk_rules_path (str, optional): Path to the `risk_rules.json` file.
+                Defaults to `config/risk_rules.json` in the package or project root.
+        """
         base_path = os.path.dirname(os.path.abspath(__file__))
         # Check if running from installed package or source
         # If installed, examples might not be in package dir, so we might need to look elsewhere or expect env vars.
@@ -79,11 +103,19 @@ class SSPMEngine:
         """
         Runs a security scan across specified providers.
 
+        This method connects to the configured integrations, fetches data (users, repos, files),
+        runs all active scanners against this data, and then passes the findings to the
+        Risk Engine for analysis and scoring.
+
         Args:
-            provider (str): The provider to scan ('all', 'slack', 'github', 'google').
+            provider (str): The provider to scan. Options are:
+                - `"all"`: Scan all configured providers.
+                - `"slack"`: Scan only Slack.
+                - `"github"`: Scan only GitHub.
+                - `"google"`: Scan only Google Workspace.
 
         Returns:
-            ScanResult: Object containing score, findings, and stats.
+            ScanResult: An object containing the risk score, list of findings, and severity counts.
         """
         data = {}
         
@@ -123,7 +155,17 @@ class SSPMEngine:
 
     def generate_report(self, analysis: ScanResult, format: str = "markdown", output_path: str = "report.md"):
         """
-        Generates a report from scan results.
+        Generates a report from the scan results.
+
+        Args:
+            analysis (ScanResult): The result object returned by `run_scan`.
+            format (str): The desired output format. Options: `"markdown"`, `"json"`. 
+                Defaults to `"markdown"`.
+            output_path (str): The file path where the report will be saved. 
+                Defaults to `"report.md"`.
+
+        Raises:
+            ValueError: If an unsupported format is specified (though currently silently ignored/handled by reporter).
         """
         if format == "markdown":
             self.reporter.generate_markdown_report(analysis, output_path)
